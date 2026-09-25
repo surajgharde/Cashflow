@@ -1,0 +1,30 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npx expo export --platform web",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "framework": null,
+  "rewrites": [
+    {
+      "comment": "expo-router runs as a client-side SPA (app.json web.output = single), so every route must fall through to index.html. Vercel serves real files from dist/ first, so /_expo/static/** and /assets/** still resolve.",
+      "source": "/((?!_expo/|assets/|favicon\\.ico|.*\\.[a-zA-Z0-9]+$).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "comment": "Hashed bundle and asset filenames are immutable, so cache them hard.",
+      "source": "/_expo/static/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "comment": "Fonts are fingerprinted by Metro and are safe to cache long-term.",
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
