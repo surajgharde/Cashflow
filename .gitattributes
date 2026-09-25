@@ -1,0 +1,36 @@
+# Normalise every text file to LF in the repository, and check it out as LF on
+# every platform. This overrides a global core.autocrlf=true (which is set on
+# this machine), so Windows, macOS and Linux clones all see identical bytes and
+# line endings never show up as spurious diffs.
+* text=auto eol=lf
+
+# Windows-only scripts must keep CRLF or they break when run.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Shell scripts must keep LF even on Windows.
+*.sh text eol=lf
+
+# Binary assets: never run line-ending or diff conversion over these.
+# The Material Symbols subsets live here; corrupting them breaks every icon.
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.mp4 binary
+*.pdf binary
+*.keystore binary
+*.jks binary
+
+# Generated files: collapse them in GitHub diffs and keep them out of language
+# stats. src/components/glyphs.ts is emitted from the Material Symbols
+# codepoints file, not hand-written.
+package-lock.json linguist-generated=true
+src/components/glyphs.ts linguist-generated=true
