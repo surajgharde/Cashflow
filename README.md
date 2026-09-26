@@ -16,9 +16,11 @@ npm run typecheck
 
 ### Expo Go
 
-The project runs in Expo Go as-is — SDK 54, no custom native code, and every native
+The project runs in Expo Go as-is — SDK 57, no custom native code, and every native
 module it pulls in (`react-native-svg`, `react-native-reanimated`, `expo-font`,
-`expo-blur`) ships inside the Expo Go client. `npx expo-doctor` should report 18/18.
+`expo-blur`) ships inside the Expo Go client, so the manifest advertises
+`exposdk:57.0.0` and the store build of Expo Go loads it directly.
+`npx expo-doctor` should report 21/21.
 
 `npm start` goes through `scripts/start-expo.js` rather than calling `expo start`
 directly. Expo picks the first non-internal IPv4 it finds when it builds the QR code;
@@ -34,9 +36,19 @@ If the phone still can't reach the machine — separate subnets, client isolatio
 access point, or a firewall blocking inbound Node on the active network profile — use
 `npm run start:tunnel`, which routes through Expo's relay instead of the LAN.
 
+### Carried over from SDK 54
+
+Three config keys moved when the project came up from SDK 54, and the schema check
+rejects the old spelling: `newArchEnabled` is gone because the new architecture is the
+only one left, `android.edgeToEdgeEnabled` is gone because edge-to-edge is always on,
+and the top-level `splash` block is now options on the `expo-splash-screen` plugin.
+TypeScript also moved to 6.x, which drops `baseUrl` (the `@/*` paths are resolved
+relative to `tsconfig.json` instead) and refuses a side-effect import it has no
+declaration for, so `nativewind-env.d.ts` declares `*.css` for `global.css`.
+
 ## Stack
 
-- **Expo SDK 54** (React Native 0.81, React 19) with **expo-router** for file-based navigation
+- **Expo SDK 57** (React Native 0.86, React 19.2) with **expo-router** for file-based navigation
 - **NativeWind v4** — the export was Tailwind, so classes port over almost 1:1
 - **react-native-svg** for the trajectory/area/ring charts that were inline SVG in the export
 

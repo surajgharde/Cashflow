@@ -6,23 +6,34 @@
     "orientation": "portrait",
     "scheme": "cashflowguardian",
     "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
     "backgroundColor": "#111317",
-    "splash": {
-      "backgroundColor": "#111317",
-      "resizeMode": "contain"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.innovexc.cashflowguardian"
     },
     "android": {
       "package": "io.innovexc.cashflowguardian",
-      "edgeToEdgeEnabled": true,
-      "adaptiveIcon": { "backgroundColor": "#111317" }
+      "adaptiveIcon": {
+        "backgroundColor": "#111317"
+      }
     },
-    "web": { "bundler": "metro", "output": "single" },
-    "plugins": ["expo-router", "expo-font"],
-    "experiments": { "typedRoutes": false }
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#111317"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": false
+    }
   }
 }
