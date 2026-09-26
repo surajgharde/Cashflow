@@ -80,13 +80,14 @@ export default function LoadingState() {
 
       {/* Radar core */}
       <View className="flex-1 items-center justify-center">
-        <Animated.View
-          className="h-48 w-48 items-center justify-center rounded-full border border-surface-container-high"
-          style={{ transform: [{ rotate }] }}
-        >
-          <View className="absolute -top-1.5 h-3 w-3 rounded-full bg-primary-container" />
-          <View className="absolute -bottom-1.5 h-2 w-2 rounded-full bg-secondary" />
-          <View className="h-32 w-32 items-center justify-center rounded-full border border-surface-container-highest" />
+        {/* NativeWind has no interop for Animated.View, so className is dropped on native.
+            The transform stays on Animated.View and the ring itself is a plain View. */}
+        <Animated.View style={{ transform: [{ rotate }] }}>
+          <View className="h-48 w-48 items-center justify-center rounded-full border border-surface-container-high">
+            <View className="absolute -top-1.5 h-3 w-3 rounded-full bg-primary-container" />
+            <View className="absolute -bottom-1.5 h-2 w-2 rounded-full bg-secondary" />
+            <View className="h-32 w-32 items-center justify-center rounded-full border border-surface-container-highest" />
+          </View>
         </Animated.View>
 
         <View className="absolute h-20 w-20 items-center justify-center rounded-full bg-surface-container-high">

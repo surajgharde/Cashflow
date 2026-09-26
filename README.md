@@ -14,6 +14,26 @@ npm run web
 npm run typecheck
 ```
 
+### Expo Go
+
+The project runs in Expo Go as-is — SDK 54, no custom native code, and every native
+module it pulls in (`react-native-svg`, `react-native-reanimated`, `expo-font`,
+`expo-blur`) ships inside the Expo Go client. `npx expo-doctor` should report 18/18.
+
+`npm start` goes through `scripts/start-expo.js` rather than calling `expo start`
+directly. Expo picks the first non-internal IPv4 it finds when it builds the QR code;
+on a machine carrying a WSL/Hyper-V `vEthernet` adapter, VirtualBox, VMware, Docker or
+a disconnected NIC on a 169.254.x.x link-local address, that detection loses and falls
+back to `127.0.0.1` — which the phone resolves to *itself*, so Expo Go fails to connect.
+The wrapper skips virtual and link-local adapters, picks the real Wi-Fi address and
+pins it via `REACT_NATIVE_PACKAGER_HOSTNAME`. It prints the address it chose. Arguments
+pass straight through (`npm start -- --clear`), and an address you set yourself in
+`REACT_NATIVE_PACKAGER_HOSTNAME` always wins.
+
+If the phone still can't reach the machine — separate subnets, client isolation on the
+access point, or a firewall blocking inbound Node on the active network profile — use
+`npm run start:tunnel`, which routes through Expo's relay instead of the LAN.
+
 ## Stack
 
 - **Expo SDK 54** (React Native 0.81, React 19) with **expo-router** for file-based navigation
